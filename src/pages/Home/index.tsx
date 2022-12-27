@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
 
-import { Card } from '../../components/Card';
+import { Card, CardPatrick } from '../../components/Card';
+
+type TipandoAPI = {
+  name: string;
+  avatar_url: string;
+}
+type TipandosetUser ={
+  name: string;
+  avatar: string;
+}
 
 export function Home() {
   const [studentName, setStudentName] = useState('');
-  const [students, setStudents] = useState([]);
-  const [user, setUser] = useState({ name: '', avatar: '' });
+  const [students, setStudents] = useState<CardPatrick[]>([]);
+  const [user, setUser] = useState<TipandosetUser>({} as TipandosetUser);
 
   function handleAddStudent() {
     const newStudent = {
@@ -25,8 +34,8 @@ export function Home() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('https://api.github.com/users/rodrigorgtic');
-      const data = await response.json();
-      console.log("DADOS ===> ", data);
+      const data = await response.json() as TipandoAPI;
+      
 
       setUser({
         name: data.name,
